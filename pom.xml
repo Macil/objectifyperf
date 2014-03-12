@@ -43,7 +43,7 @@
         <dependency>
             <groupId>com.googlecode.objectify</groupId>
             <artifactId>objectify</artifactId>
-            <version>4.0rc2</version>
+            <version>4.0.1-entityloader</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>

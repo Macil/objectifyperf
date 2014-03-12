@@ -21,6 +21,7 @@ public class ContextInitializer implements ServletContextListener {
   @Override
   public void contextInitialized(ServletContextEvent event) {
     ObjectifyService.register(Case.class);
+    ObjectifyService.registerLoader(Case.class, new CaseLoader());
     
     // Populate datastore on first run
     final int TARGET_COUNT = 10000;

@@ -22,6 +22,9 @@ public class Case {
   
   public Case() {
   }
+  protected Case(Long caseId) {
+    this.caseId = caseId;
+  }
   
   public Long getCaseId() {
     return caseId;
