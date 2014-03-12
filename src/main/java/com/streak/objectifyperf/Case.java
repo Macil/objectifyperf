@@ -11,8 +11,7 @@ import com.googlecode.objectify.annotation.Index;
 
 @Entity @Cache
 public class Case {
-  @Id
-  private Long caseId;
+  @Id private Long caseId;
   
   private int userId;
   private int favoriteNumber = 0;
@@ -21,12 +20,7 @@ public class Case {
   private String name;
   private List<String> notes = new ArrayList<>();
   
-  @SuppressWarnings("unused")
-  private Case() {
-  }
-  
-  public Case(long caseId) {
-    this.caseId = caseId;
+  public Case() {
   }
   
   public Long getCaseId() {

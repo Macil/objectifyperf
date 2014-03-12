@@ -20,10 +20,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.google.appengine.api.users.User;
-import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
 
 import org.junit.After;
 import org.junit.Before;
@@ -36,20 +33,16 @@ import java.io.StringWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class GuestbookServletTest {
+public class TesterServletTest {
 
-  private GuestbookServlet guestbookServlet;
+  private TesterServlet testerServlet;
 
-  private final LocalServiceTestHelper helper =
-      new LocalServiceTestHelper(new LocalUserServiceTestConfig())
-          .setEnvIsLoggedIn(true)
-          .setEnvAuthDomain("localhost")
-          .setEnvEmail("test@localhost");
+  private final LocalServiceTestHelper helper = new LocalServiceTestHelper();
 
   @Before
   public void setupGuestBookServlet() {
     helper.setUp();
-    guestbookServlet = new GuestbookServlet();
+    testerServlet = new TesterServlet();
   }
 
   @After
@@ -66,11 +59,9 @@ public class GuestbookServletTest {
 
     when(response.getWriter()).thenReturn(new PrintWriter(stringWriter));
 
-    guestbookServlet.doGet(request, response);
+    testerServlet.doGet(request, response);
 
-    User currentUser = UserServiceFactory.getUserService().getCurrentUser();
-
-    assertEquals("Hello, " + currentUser.getNickname() + System.getProperty("line.separator"), stringWriter.toString());
+    assertEquals("Hello world!\n", stringWriter.toString());
   }
 
 }
