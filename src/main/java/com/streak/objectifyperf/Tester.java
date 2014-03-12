@@ -50,6 +50,8 @@ public class Tester {
     if (quiet)
       jobPr = new PrintWriter(ByteStreams.nullOutputStream());
     
+    double datastoreTime, objectifyTime;
+    
     pr.println("Warming up...");
     for (int i=0; i<WARMUP_ROUNDS; i++) {
       datastoreTest(jobPr);
@@ -59,7 +61,8 @@ public class Tester {
       long t0 = System.nanoTime();
       datastoreTest(jobPr);
       long t1 = System.nanoTime();
-      pr.println("Time elapsed: " + ((t1 - t0) / 1e9) + "s");
+      datastoreTime = (t1 - t0) / 1e9;
+      pr.println("Time elapsed: " + datastoreTime + "s");
     }
     pr.println("Warming up...");
     for (int i=0; i<WARMUP_ROUNDS; i++) {
@@ -71,9 +74,11 @@ public class Tester {
       long t0 = System.nanoTime();
       objectifyTest(jobPr);
       long t1 = System.nanoTime();
-      pr.println("Time elapsed: " + ((t1 - t0) / 1e9) + "s");
+      objectifyTime = (t1 - t0) / 1e9;
+      pr.println("Time elapsed: " + objectifyTime + "s");
       ofy().clear();
     }
+    pr.printf("Objectify / datastore time: %.2f%%\n",(objectifyTime/datastoreTime)*100);
     pr.flush();
   }
 }

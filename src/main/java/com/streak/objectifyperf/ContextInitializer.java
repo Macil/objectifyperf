@@ -60,8 +60,8 @@ public class ContextInitializer implements ServletContextListener {
     }
     
     System.out.println("====================");
-    Tester.doTests(new PrintWriter(System.out));
-    System.out.println("Testing done");
+    Tester.doTests(new PrintWriter(System.out, true));
+    System.out.println("Testing done.");
     System.out.println("====================");
   }
 }
