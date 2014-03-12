@@ -2,6 +2,7 @@ package com.streak.objectifyperf;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -22,7 +23,7 @@ public class ContextInitializer implements ServletContextListener {
     ObjectifyService.register(Case.class);
     
     // Populate datastore on first run
-    final int TARGET_COUNT = 100000;
+    final int TARGET_COUNT = 10000;
     List<Key<Case>> keys = ofy().cache(false).load().type(Case.class).keys().list();
     if (keys.size() == TARGET_COUNT) {
       System.out.println("Datastore already populated with "+TARGET_COUNT+" entries.");
@@ -30,7 +31,7 @@ public class ContextInitializer implements ServletContextListener {
       System.out.println("Populating datastore...");
       ofy().delete().keys(keys).now();
       
-      Random r = new Random();
+      Random r = new Random(1234);
       
       List<Case> cases = new ArrayList<>();
       for (int i=0; i<TARGET_COUNT; i++) {
@@ -57,5 +58,8 @@ public class ContextInitializer implements ServletContextListener {
       ofy().clear();
       System.out.println("Populated "+TARGET_COUNT+" entries into the datastore.");
     }
+    
+    Tester.doTests(new PrintWriter(System.out));
+    System.out.println("Testing done");
   }
 }
