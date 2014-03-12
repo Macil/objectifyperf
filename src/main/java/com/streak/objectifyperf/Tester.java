@@ -3,7 +3,6 @@ package com.streak.objectifyperf;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -14,6 +13,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.common.io.ByteStreams;
 
 public class Tester {
+  @SuppressWarnings("unchecked")
   public static void datastoreTest(PrintWriter pr) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("Case");
@@ -21,11 +21,12 @@ public class Tester {
     for (Entity bob : pq.asIterable()) {
       pr.println("Hello, world from case #" + bob.getKey().getId());
       pr.println(" Favorite number: " + bob.getProperty("favoriteNumber"));
-      List<String> notes = new ArrayList<>();
-      Object o = bob.getProperty("notes");
-      if (o != null)
-        notes.add(o.toString());
-      pr.println(" Notes: " + notes);
+      List<String> notes = (List<String>)bob.getProperty("notes");
+      if (notes != null) {
+        for (String note : notes) {
+          pr.println(" Note: " + note);
+        }
+      }
     }
   }
   
@@ -35,7 +36,6 @@ public class Tester {
       pr.println(" Favorite number: " + bob.getFavoriteNumber());
       for (String note : bob.getNotes()) {
         pr.println(" Note: " + note);
-        break;
       }
     }
   }
