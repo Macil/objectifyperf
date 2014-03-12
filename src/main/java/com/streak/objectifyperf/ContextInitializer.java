@@ -59,7 +59,9 @@ public class ContextInitializer implements ServletContextListener {
       System.out.println("Populated "+TARGET_COUNT+" entries into the datastore.");
     }
     
+    System.out.println("====================");
     Tester.doTests(new PrintWriter(System.out));
     System.out.println("Testing done");
+    System.out.println("====================");
   }
 }
