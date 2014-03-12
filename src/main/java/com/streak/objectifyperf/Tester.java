@@ -34,8 +34,11 @@ public class Tester {
     for (Case bob : ofy().cache(false).load().type(Case.class)) {
       pr.println("Hello, world from case #" + bob.getCaseId());
       pr.println(" Favorite number: " + bob.getFavoriteNumber());
-      for (String note : bob.getNotes()) {
-        pr.println(" Note: " + note);
+      List<String> notes = bob.getNotes();
+      if (notes != null) {
+        for (String note : notes) {
+          pr.println(" Note: " + note);
+        }
       }
     }
   }
