@@ -13,32 +13,30 @@ import com.google.appengine.api.datastore.Query;
 import com.google.common.io.ByteStreams;
 
 public class Tester {
-  @SuppressWarnings("unchecked")
   public static void datastoreTest(PrintWriter pr) {
+    CaseLoader loader = new CaseLoader();
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("Case");
     PreparedQuery pq = datastore.prepare(query);
     for (Entity bob : pq.asIterable()) {
-      pr.println("Hello, world from case #" + bob.getKey().getId());
-      pr.println(" Favorite number: " + bob.getProperty("favoriteNumber"));
-      List<String> notes = (List<String>)bob.getProperty("notes");
-      if (notes != null) {
-        for (String note : notes) {
-          pr.println(" Note: " + note);
-        }
-      }
+      Case c = loader.load(bob);
+      caseReport(pr, c);
     }
   }
   
   public static void objectifyTest(PrintWriter pr) {
     for (Case bob : ofy().cache(false).load().type(Case.class)) {
-      pr.println("Hello, world from case #" + bob.getCaseId());
-      pr.println(" Favorite number: " + bob.getFavoriteNumber());
-      List<String> notes = bob.getNotes();
-      if (notes != null) {
-        for (String note : notes) {
-          pr.println(" Note: " + note);
-        }
+      caseReport(pr, bob);
+    }
+  }
+  
+  public static void caseReport(PrintWriter pr, Case bob) {
+    pr.println("Hello, world from case #" + bob.getCaseId());
+    pr.println(" Favorite number: " + bob.getFavoriteNumber());
+    List<String> notes = bob.getNotes();
+    if (notes != null) {
+      for (String note : notes) {
+        pr.println(" Note: " + note);
       }
     }
   }
